@@ -17,6 +17,7 @@ class Hbc::Audit
     check_sha256
     check_appcast
     check_url
+    check_generic_artifacts
     check_download
     self
   end
@@ -109,9 +110,9 @@ class Hbc::Audit
   def check_download_url_format
     odebug "Auditing URL format"
     if bad_sourceforge_url?
-      add_warning "SourceForge URL format incorrect. See https://github.com/caskroom/homebrew-cask/blob/master/CONTRIBUTING.md#sourceforgeosdn-urls"
+      add_warning "SourceForge URL format incorrect. See https://github.com/caskroom/homebrew-cask/blob/master/doc/cask_language_reference/stanzas/url.md#sourceforgeosdn-urls"
     elsif bad_osdn_url?
-      add_warning "OSDN URL format incorrect. See https://github.com/caskroom/homebrew-cask/blob/master/CONTRIBUTING.md#sourceforgeosdn-urls"
+      add_warning "OSDN URL format incorrect. See https://github.com/caskroom/homebrew-cask/blob/master/doc/cask_language_reference/stanzas/url.md#sourceforgeosdn-urls"
     end
   end
 
@@ -136,6 +137,16 @@ class Hbc::Audit
     bad_url_format?(/osd/, [
       %r{\Ahttps?://[^/]+\.osdn\.jp/},
     ])
+  end
+
+  def check_generic_artifacts
+    cask.artifacts[:artifact].each do |source, target_hash|
+      unless target_hash.is_a?(Hash) && target_hash[:target]
+        add_error "target required for generic artifact #{source}"
+        next
+      end
+      add_error "target must be absolute path for generic artifact #{source}" unless Pathname.new(target_hash[:target]).absolute?
+    end
   end
 
   def check_download

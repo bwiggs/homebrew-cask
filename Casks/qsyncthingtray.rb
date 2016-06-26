@@ -1,15 +1,13 @@
 cask 'qsyncthingtray' do
-  version '0.4.2'
-  sha256 '88a670d1db2a107a60b04528354540e4360f7ebfdb34f8d3b0ecd3b77dc3a44f'
+  version '0.4.7'
+  sha256 '274f411f79e17df4ebecbc5ff280df497751199714f5668a3bd4d2198adac57f'
 
-  url "https://github.com/sieren/QSyncthingTray/releases/download/#{version}/QSyncthingTray_#{version}_OSX.dmg"
+  url "https://github.com/sieren/QSyncthingTray/releases/download/#{version}/QSyncthingTray_#{version}_MAC.dmg"
   appcast 'https://github.com/sieren/QSyncthingTray/releases.atom',
-          checkpoint: 'befa43917a2f7f35be4c907ca424edf7bd2b43848cbaa95223812d5cc84e13a7'
+          checkpoint: 'ce79e448c25bae30620a3104eaf88b8be7b1ed06df779ceb6b62f017226c0e34'
   name 'QSyncthingTray'
   homepage 'https://github.com/sieren/QSyncthingTray'
   license :gpl
-
-  depends_on cask: 'syncthing'
 
   app 'QSyncthingTray.app'
 
